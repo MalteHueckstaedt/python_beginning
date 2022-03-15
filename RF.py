@@ -7,12 +7,24 @@ Created on Tue Mar 15 15:12:58 2022
 """
 
 import pandas as pd
+import numpy as np
+import dalex as dx
+
+
+#import plotly.graph_objects as go
+# Damit Plots von Dalex im Browser angezeigt werden:
+import plotly.io as pio
+pio.renderers.default = 'svg'
+#pio.renderers.default = 'browser'
+
+#import matplotlib as plt
+#import plotly.express as px
+
 henry = pd.DataFrame({'gender': ['male'], 'age': [47],
-           'class': ['1st'],
+           'class': ['3rd'],
            'embarked': ['Cherbourg'], 'fare': [25],
            'sibsp': [0], 'parch': [0]},
            index = ['Henry'])
-import dalex as dx
 
 titanic = dx.datasets.load_titanic()
 X = titanic.drop(columns='survived')
@@ -35,3 +47,19 @@ titanic_rf.fit(X, y)
 
 titanic_rf_exp = dx.Explainer(titanic_rf, X, y, 
            label = "Titanic RF Pipeline")
+
+titanic_rf.predict_proba(henry)
+
+bd_henry = titanic_rf_exp.predict_parts(henry, 
+             type = 'break_down')
+bd_henry.result
+bd_henry.plot()
+
+bd_henry = titanic_rf_exp.predict_parts(henry,
+        type = 'break_down',
+        order = np.array(['gender', 'class', 'age',
+            'embarked', 'fare', 'sibsp', 'parch']))
+
+
+bd_henry.plot(max_vars = 5)
+ 
