@@ -27,7 +27,10 @@ movies_links = ["http://imdb.com"+title["href"] for title in movies]
 print(movies_titles)
 print(movies_links)
 type(movies_titles) # Type=Liste
-df = {'Month':movies_titles,'Day':movies_links} # Erzeugt aus zwei Listen eine Dictonary
+df = {'Title':movies_titles,'URL':movies_links} # Erzeugt aus zwei Listen eine Dictonary
 type(df) #ist ein Dictonary
 df = pd.DataFrame(df) #wandelt Dictonary in einen Pandas-DataFrame um
+df
 type(df)
+
+df[df["Title"].str.contains("Herr")] #Filtere Zeilen mit dem String "Herr"
