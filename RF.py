@@ -27,6 +27,7 @@ henry = pd.DataFrame({'gender': ['male'], 'age': [47],
            index = ['Henry'])
 
 titanic = dx.datasets.load_titanic()
+titanic
 X = titanic.drop(columns='survived')
 y = titanic.survived
 
@@ -45,12 +46,12 @@ titanic_rf = make_pipeline(
     RandomForestClassifier(max_depth = 3, n_estimators = 500))
 titanic_rf.fit(X, y)
 
-titanic_rf_exp = dx.Explainer(titanic_rf, X, y, 
+titanic_rf_exp = dx.Explainer(titanic_rf, X, y,
            label = "Titanic RF Pipeline")
 
 titanic_rf.predict_proba(henry)
 
-bd_henry = titanic_rf_exp.predict_parts(henry, 
+bd_henry = titanic_rf_exp.predict_parts(henry,
              type = 'break_down')
 bd_henry.result
 bd_henry.plot()
@@ -62,4 +63,3 @@ bd_henry = titanic_rf_exp.predict_parts(henry,
 
 
 bd_henry.plot(max_vars = 5)
- 
