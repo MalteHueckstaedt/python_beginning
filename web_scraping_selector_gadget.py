@@ -22,6 +22,7 @@ soup
 
 movies = soup.select(".lister-item-header a")
 print(movies)
+
 movies_titles = [title.text for title in movies]
 movies_links = ["http://imdb.com"+title["href"] for title in movies]
 print(movies_titles)
@@ -34,3 +35,45 @@ df
 type(df)
 
 df[df["Title"].str.contains("Herr")] #Filtere Zeilen mit dem String "Herr"
+
+######################################
+######################################
+######################################
+#scrape monpol ###################
+######################################
+######################################
+######################################
+
+#load url
+url = "https://www.monopol-magazin.de/ressort/kunstmarkt"
+res = requests.get(url)
+res
+
+#generate BeautifulSoup
+soup = BeautifulSoup(res.text)
+soup
+
+# select all header objects
+articles = soup.select("#block-kf-bootstrap-content header")
+print(articles)
+
+#get titles
+articles_titles = [article__title.text for article__title in articles]
+print(articles_titles)
+type(articles_titles)
+
+#get urls
+ articles_urls = []
+ for article__title in soup.find_all(attrs={'class':'article__title'}):
+     for link in article__title.find_all('a'):
+         url = "https://www.monopol-magazin.de"+link.get('href')
+         articles_urls.append(url)
+print(articles_urls)
+type(articles_urls)
+
+print(len(articles_titles))
+print(len(articles_urls))
+
+#join list to dataframe
+print(monopol)
+pd.DataFrame(articles_titles,articles_urls)
