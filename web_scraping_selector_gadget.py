@@ -77,3 +77,63 @@ print(len(articles_urls))
 #join list to dataframe
 print(monopol)
 pd.DataFrame(articles_titles,articles_urls)
+
+
+######################################
+######################################
+######################################
+#load text ###################
+######################################
+######################################
+######################################
+
+data = []
+for url in articles_urls:
+    # 1. Obtain the response:
+    res = requests.get(url)
+
+    # 2. If the response content is 200 - Status Ok, Save The HTML Content:
+    if res.status_code == 200:
+        soup = BeautifulSoup(res.text)
+        for element in soup.select('.field--type-text-long.field--label-hidden'):
+            monopol_texts = element.get_text()
+            data.append(monopol_texts)
+print(data)
+
+# for url in articles_urls:
+#     # 1. Obtain the response:
+#     res = requests.get(url)
+#
+#     # 2. If the response content is 200 - Status Ok, Save The HTML Content:
+#     if res.status_code == 200:
+#         soup = BeautifulSoup(res.text)
+#         for element in soup.select('.field--type-text-long.field--label-hidden'):
+#             print(element.get_text())
+
+
+
+
+
+
+print(len(data))
+print(data)
+type(data)
+
+data
+df = pd.DataFrame(data)
+df
+
+#exploring dataframe
+
+# Import the wordcloud library
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+text = df[0].values
+
+print(len(text))
+
+wordcloud = WordCloud().generate(str(text))
+wordcloud
+plt.imshow(wordcloud)
+plt.axis("off")
+plt.show()
