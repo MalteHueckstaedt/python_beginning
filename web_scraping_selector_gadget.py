@@ -128,12 +128,22 @@ df
 # Import the wordcloud library
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+from nltk.corpus import stopwords
+
+stopwords = set(stopwords.words('german'))
+type(stopwords)
+stopwords
+
 text = df[0].values
 
 print(len(text))
 
-wordcloud = WordCloud().generate(str(text))
+import nltk
+
+wordcloud = WordCloud(stopwords=stopwords).generate(str(text))
 wordcloud
 plt.imshow(wordcloud)
 plt.axis("off")
 plt.show()
+
+NLP
